@@ -1,0 +1,8 @@
+torch>=2.6
+numpy
+librosa
+soundfile
+matplotlib
+tensorboard
+rich>=13.7,<16.0
+triton; sys_platform == "linux"
