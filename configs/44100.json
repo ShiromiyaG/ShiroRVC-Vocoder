@@ -40,7 +40,7 @@
             "upsample_initial_channel": 512,
             "prenet_blocks": 0,
             "deep_source_stages": 0,
-            "resblock": "2",
+            "resblock": "1",
             "resblock_kernel_sizes": [
                 3,
                 7,
