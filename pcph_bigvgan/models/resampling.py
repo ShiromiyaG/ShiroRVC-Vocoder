@@ -15,11 +15,7 @@ from torch import Tensor, nn
 from torch.nn import functional as F
 
 from pcph_bigvgan.models.commons import cache_scope
-
-try:
-    from pcph_bigvgan.models.upsample_triton import PolyphaseUpsample
-except ImportError:
-    PolyphaseUpsample = None
+from pcph_bigvgan.models.upsample_triton import PolyphaseUpsample
 
 
 def polyphase_weights(kernel: Tensor, factor: int, taps: int) -> Tensor:
@@ -257,7 +253,7 @@ class AntiAliasedUpsample1d(nn.Module):
         if torch.compiler.is_compiling():
             return self._transposed(x)
 
-        if PolyphaseUpsample is not None and x.is_cuda:
+        if x.is_cuda:
             padded = F.pad(x, self.phase_pad, mode="replicate")
             return PolyphaseUpsample.apply(padded, self.phase_weight, x.shape[-1])
 

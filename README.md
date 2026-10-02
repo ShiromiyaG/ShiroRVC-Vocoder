@@ -14,8 +14,8 @@ with what it depends on and nothing else.
 pip install -r requirements.txt
 ```
 
-Triton is optional (Linux, CUDA): with it the SnakeBeta activations and the
-upsamplers run as fused kernels.
+Triton is required, on Windows too (`triton-windows`): on CUDA the SnakeBeta
+activations and the upsamplers run as fused Triton kernels.
 
 ## Data
 

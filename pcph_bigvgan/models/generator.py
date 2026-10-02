@@ -32,13 +32,10 @@ from pcph_bigvgan.models.resampling import (
 )
 
 
-try:
-    from pcph_bigvgan.models.snake_triton import (
-        FusedResidualSnakeBeta,
-        FusedSnakeBeta,
-    )
-except ImportError:
-    FusedSnakeBeta = FusedResidualSnakeBeta = None
+from pcph_bigvgan.models.snake_triton import (
+    FusedResidualSnakeBeta,
+    FusedSnakeBeta,
+)
 
 
 #: Decimation filter that brings the excitation down to each stage's rate.
@@ -139,8 +136,7 @@ class StageRateActivation(nn.Module):
 class AntiAliasedSnakeBeta(AntiAliasedActivation):
     """``AntiAliasedActivation(SnakeBeta)``, fused into one Triton op on CUDA.
 
-    Same keys and same output; the unfused path runs on the CPU or without
-    Triton.
+    Same keys and same output; the unfused path runs on the CPU.
     """
 
     def __init__(self, channels: int, design: dict = SNAKE_ACTIVATION):
@@ -149,7 +145,7 @@ class AntiAliasedSnakeBeta(AntiAliasedActivation):
         self.fusable = self.design[:2] == (2, 16)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        if FusedSnakeBeta is None or not x.is_cuda or not self.fusable:
+        if not x.is_cuda or not self.fusable:
             return super().forward(x)
         return FusedSnakeBeta.apply(x, *self._fused_args(x))
 
@@ -239,8 +235,7 @@ class AMPBlock(nn.Module):
 
     def _fusable(self, x: torch.Tensor) -> bool:
         return (
-            FusedResidualSnakeBeta is not None
-            and x.is_cuda
+            x.is_cuda
             and x.dtype == torch.float32
             and all(isinstance(act, AntiAliasedSnakeBeta) and act.fusable for act in self.acts1)
         )

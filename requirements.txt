@@ -5,4 +5,5 @@ soundfile
 matplotlib
 tensorboard
 rich>=13.7,<16.0
-triton; sys_platform == "linux"
+triton==3.7.1; sys_platform == "linux"
+triton-windows==3.7.1.post27; sys_platform == "win32"
