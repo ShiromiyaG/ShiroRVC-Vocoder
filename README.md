@@ -2,7 +2,7 @@
 
 Trainer for the PCPH-BigVGAN mel vocoder: BigVGAN v2's anti-aliased SnakeBeta
 blocks at voice scale, driven by a pseudo-constant-power harmonic excitation
-(every harmonic to Nyquist, phase-locked) built from f0. It renders a
+(every harmonic to 16 kHz, phase-locked) built from f0. It renders a
 normalised log mel plus f0 to 44.1 kHz audio.
 
 The code is the vocoder trainer of ShiroRVC's rectified pipeline, extracted

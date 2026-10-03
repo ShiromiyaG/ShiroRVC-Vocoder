@@ -129,7 +129,10 @@
                     0
                 ]
             ],
+            "source_max_frequency": 16000,
+            "source_pulsed_noise": false,
             "noise_branch_bands": 32,
+            "noise_branch_split_source": true,
             "output_gain": true
         },
         "discriminator": {
